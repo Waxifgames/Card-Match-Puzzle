@@ -7,33 +7,28 @@ public class CardManager : MonoBehaviour
 {
 
     public static CardManager Instance;
-    public static int gameSize = 2;
-    [SerializeField]
-    private GameObject prefab;
-    [SerializeField]
-    private GameObject cardList;
-    [SerializeField]
-    private Sprite cardBack;
+    //public static int gameSize = 2;
+    public static int gameSizeX = 2;
+    public static int gameSizeY = 2;
+    [SerializeField]private GameObject prefab;
+    [SerializeField]private GameObject cardList;
+    [SerializeField]private Sprite cardBack;
     // all possible sprite
-    [SerializeField]
-    private Sprite[] sprites;
+    [SerializeField]private Sprite[] sprites;
     // list of card
     private CardMatch[] cards;
 
     //we place card on this panel
-    [SerializeField]
-    private GameObject panel;
-    [SerializeField]
-    private GameObject info;
-    [SerializeField]
-    private CardMatch spritePreload;
-    [SerializeField]
-    private Text sizeLabel;
-    [SerializeField]
-    private Slider sizeSlider;
-    [SerializeField]
-   /* private Text timeLabel;
-    private float time;*/
+    [SerializeField]private GameObject panel;
+    [SerializeField]private GameObject info;
+    [SerializeField]private CardMatch spritePreload;
+    [SerializeField]private Text sizeLabel;
+    // [SerializeField]private Slider sizeSlider;
+    [SerializeField] private Slider sizeSliderX;
+    [SerializeField] private Slider sizeSliderY;
+    //[SerializeField]
+    /* private Text timeLabel;
+     private float time;*/
 
     private int spriteSelected;
     private int cardSelected;
@@ -71,9 +66,9 @@ public class CardManager : MonoBehaviour
     }
     private void SetGamePanel(){
 
-        int isOdd = gameSize % 2 ;
+        int isOdd = gameSizeX % 2 ;
 
-        cards = new CardMatch[gameSize * gameSize - isOdd];
+        cards = new CardMatch[gameSizeX * gameSizeX - isOdd];
         foreach (Transform child in cardList.transform)
         {
             GameObject.Destroy(child.gameObject);
@@ -82,26 +77,26 @@ public class CardManager : MonoBehaviour
         RectTransform panelsize = panel.transform.GetComponent(typeof(RectTransform)) as RectTransform;
         float row_size = panelsize.sizeDelta.x;
         float col_size = panelsize.sizeDelta.y;
-        float scale = 1.0f/gameSize;
-        float xInc = row_size/gameSize;
-        float yInc = col_size/gameSize;
-        float curX = -xInc * (float)(gameSize / 2);
-        float curY = -yInc * (float)(gameSize / 2);
+        float scale = 1.0f/ gameSizeX;
+        float xInc = row_size/ gameSizeX;
+        float yInc = col_size/ gameSizeX;
+        float curX = -xInc * (float)(gameSizeX / 2);
+        float curY = -yInc * (float)(gameSizeX / 2);
 
         if(isOdd == 0) {
             curX += xInc / 2;
             curY += yInc / 2;
         }
         float initialX = curX;
-        for (int i = 0; i < gameSize; i++)
+        for (int i = 0; i < gameSizeX; i++)
         {
             curX = initialX;
-            for (int j = 0; j < gameSize; j++)
+            for (int j = 0; j < gameSizeX; j++)
             {
                 GameObject c;
-                if (isOdd == 1 && i == (gameSize - 1) && j == (gameSize - 1))
+                if (isOdd == 1 && i == (gameSizeX - 1) && j == (gameSizeX - 1))
                 {
-                    int index = gameSize / 2 * gameSize + gameSize / 2;
+                    int index = gameSizeX / 2 * gameSizeX + gameSizeX / 2;
                     c = cards[index].gameObject;
                 }
                 else
@@ -111,7 +106,7 @@ public class CardManager : MonoBehaviour
                     //assign parent
                     c.transform.parent = cardList.transform;
 
-                    int index = i * gameSize + j;
+                    int index = i * gameSizeX + j;
                     cards[index] = c.GetComponent<CardMatch>();
                     cards[index].ID = index;
                     //modify its size
@@ -128,7 +123,7 @@ public class CardManager : MonoBehaviour
     }
     void ResetFace()
     {
-        for (int i = 0; i < gameSize; i++)
+        for (int i = 0; i < gameSizeX; i++)
             cards[i].ResetRotation();
     }
 
@@ -179,8 +174,11 @@ public class CardManager : MonoBehaviour
 
     }
     public void SetGameSize() {
-        gameSize = (int)sizeSlider.value;
-        sizeLabel.text = gameSize + " X " + gameSize;
+        gameSizeX = (int)sizeSliderX.value;
+        gameSizeY = (int)sizeSliderY.value;
+        sizeLabel.text = gameSizeX + " X " + gameSizeY;
+        /* gameSize = (int)sizeSlider.value;
+         sizeLabel.text = gameSize + " X " + gameSize;*/
     }
     public Sprite GetSprite(int spriteId)
     {
@@ -237,7 +235,7 @@ public class CardManager : MonoBehaviour
         gameStart = false;
         panel.SetActive(false);
     }
-    public void GiveUp()
+    public void Return()
     {
         EndGame();
     }
