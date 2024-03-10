@@ -26,9 +26,6 @@ public class CardManager : MonoBehaviour
     // [SerializeField]private Slider sizeSlider;
     [SerializeField] private Slider sizeSliderX;
     [SerializeField] private Slider sizeSliderY;
-    //[SerializeField]
-    /* private Text timeLabel;
-     private float time;*/
 
     private int spriteSelected;
     private int cardSelected;
@@ -62,7 +59,6 @@ public class CardManager : MonoBehaviour
         cardLeft = cards.Length;
         SpriteCardAllocation();
         StartCoroutine(HideFace());
-       // time = 0;
     }
     private void SetGamePanel(){
 
@@ -101,18 +97,14 @@ public class CardManager : MonoBehaviour
                 }
                 else
                 {
-                    // create card prefab
                     c = Instantiate(prefab);
-                    //assign parent
                     c.transform.parent = cardList.transform;
 
                     int index = i * gameSizeX + j;
                     cards[index] = c.GetComponent<CardMatch>();
                     cards[index].ID = index;
-                    //modify its size
                     c.transform.localScale = new Vector3(scale, scale);
                 }
-                //assign location
                 c.transform.localPosition = new Vector3(curX, curY, 0);
                 curX += xInc;
 
@@ -129,7 +121,6 @@ public class CardManager : MonoBehaviour
 
     IEnumerator HideFace()
     {
-        //display for a short moment before flipping
         yield return new WaitForSeconds(0.3f);
         for (int i = 0; i < cards.Length; i++)
             cards[i].Flip();
@@ -140,12 +131,9 @@ public class CardManager : MonoBehaviour
     {
         int i, j;
         int[] selectedID = new int[cards.Length / 2];
-        //sprite selection
         for (i = 0; i < cards.Length/2; i++)
         {
-            //get a random sprite
             int value = Random.Range(0, sprites.Length - 1);
-            //check previous number has not been selection
             for (j = i; j > 0; j--)
             {
                 if (selectedID[j - 1] == value)
@@ -154,14 +142,12 @@ public class CardManager : MonoBehaviour
             selectedID[i] = value;
         }
 
-        //card sprite deallocation
         for (i = 0; i < cards.Length; i++)
         {
             cards[i].Active();
             cards[i].SpriteID = -1;
             cards[i].ResetRotation();
         }
-        //card sprite allocation
         for (i = 0; i < cards.Length / 2; i++)
             for (j = 0; j < 2; j++)
             {
@@ -196,7 +182,6 @@ public class CardManager : MonoBehaviour
     }
     public void cardClicked(int spriteId, int cardId)
     {
-        //first selection
         if (spriteSelected == -1)
         {
             spriteSelected = spriteId;
@@ -206,7 +191,6 @@ public class CardManager : MonoBehaviour
         {
             if (spriteSelected == spriteId)
             {
-                //correctly matched
                 cards[cardSelected].Inactive();
                 cards[cardId].Inactive();
                 cardLeft -= 2;
@@ -214,19 +198,20 @@ public class CardManager : MonoBehaviour
             }
             else
             {
-                //incorrectly matched
                 cards[cardSelected].Flip();
                 cards[cardId].Flip();
+                GameController.Instance.wrongCount += 1; //LOSS LEVEL
+                
             }
             cardSelected = spriteSelected = -1;
         }
     }
     private void CheckGameWin()
     {
-        //win game
+        //WIN LEVEL
         if (cardLeft == 0)
         {
-            EndGame();
+            UIManager.Instance.LevelWin();
             AudioPlayer.Instance.PlayAudio(1);
         }
     }
@@ -243,10 +228,5 @@ public class CardManager : MonoBehaviour
     {
         info.SetActive(i);
     }
-  /*  private void Update(){
-        if (gameStart) {
-            time += Time.deltaTime;
-            timeLabel.text = "Time: " + time + "s";
-        }
-    }*/
+
 }

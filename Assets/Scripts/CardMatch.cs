@@ -15,7 +15,7 @@ public class CardMatch : MonoBehaviour
 
     public Image img;
 
-    private IEnumerator Flip90(Transform thisTransform, float time, bool changeSprite)
+    private IEnumerator Turn(Transform thisTransform, float time, bool changeSprite)
     {
         Quaternion startRotation = thisTransform.rotation;
         Quaternion endRotation = thisTransform.rotation * Quaternion.Euler(new Vector3(0, 90, 0));
@@ -28,12 +28,11 @@ public class CardMatch : MonoBehaviour
 
             yield return null;
         }
-        //change sprite and flip another 90degree
         if (changeSprite)
         {
             flipped = !flipped;
             ChangeSprite();
-            StartCoroutine(Flip90(transform, time, false));
+            StartCoroutine(Turn(transform, time, false));
         }
         else
             turning = false;
@@ -44,7 +43,7 @@ public class CardMatch : MonoBehaviour
     {
         turning = true;
         AudioPlayer.Instance.PlayAudio(0);
-        StartCoroutine(Flip90(transform, 0.25f, true));
+        StartCoroutine(Turn(transform, 0.25f, true));
     }
 
     private void ChangeSprite()

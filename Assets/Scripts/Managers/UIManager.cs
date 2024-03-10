@@ -15,8 +15,6 @@ public class UIManager : MonoBehaviour
     public int currentLevelIndex;
     public const string CurrentLevel = "CurrentLevel";
 
-    public GameObject levels;
-
     private void Awake()
     {
         Instance = this;
@@ -33,31 +31,12 @@ public class UIManager : MonoBehaviour
         PlayerPrefs.SetInt(CurrentLevel, currentLevelIndex);
     }
 
-    /*  public void LevelUIText()
-      {
-
-          LevelNumberDisplay.text = "Level " + (currentLevelIndex + 1);
-      }*/
     public void LevelUIText()
     {
-        LevelNumberDisplay.text = "Level " + (currentLevelIndex + 1);
 
-        for (int i = 0; i < levels.transform.childCount; i++)
-        {
-            if (i == currentLevelIndex)
-            {
-                levels.transform.GetChild(i).gameObject.SetActive(true);
-            }
-            else
-            {
-                levels.transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
-        for (int i = 0; i < levels.transform.childCount; i++)
-        {
-            levels.transform.GetChild(currentLevelIndex % levels.transform.childCount).gameObject.SetActive(true);
-        }
+        LevelNumberDisplay.text = "Level " + (currentLevelIndex + 1);
     }
+
 
     public void LevelWin()
     {
@@ -96,53 +75,5 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 }
-/*
 
 
-    public Text LevelNumberDisplay;
-    public int currentLevelIndex;
-    public const string CurrentLevel = "CurrentLevel";
-
-    public GameObject levels;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-    private void Start()
-    {
-        currentLevelIndex = PlayerPrefs.GetInt(CurrentLevel, 0);
-        LevelUIText();
-
-    }
-
-    public void NextLevelAdd()
-    {
-        currentLevelIndex += 1;
-        PlayerPrefs.SetInt(CurrentLevel, currentLevelIndex);
-    }
-
-    public void LevelUIText()
-    {
-        LevelNumberDisplay.text = "LV " + (currentLevelIndex + 1);
-
-        for (int i = 0; i < levels.transform.childCount; i++)
-        {
-            if (i == currentLevelIndex)
-            {
-                levels.transform.GetChild(i).gameObject.SetActive(true);
-            }
-            else
-            {
-                levels.transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
-        for (int i = 0; i < levels.transform.childCount; i++)
-        {
-            levels.transform.GetChild(currentLevelIndex % levels.transform.childCount).gameObject.SetActive(true);
-        }
-    }
-
-}
-
- */

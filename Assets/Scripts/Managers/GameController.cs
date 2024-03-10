@@ -15,11 +15,17 @@ public class GameController : MonoBehaviour
         Instance = this;
     }
 
+    private void Update()
+    {
+        WrongCount();
+    }
+
     public void CHECKTP(int count)
     {
         count += 1;
 
     }
+
 
     public void CorrectCountCheck(int count)
     {
