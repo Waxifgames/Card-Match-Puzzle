@@ -10,19 +10,19 @@ public class CardManager : MonoBehaviour
     //public static int gameSize = 2;
     public static int gameSizeX = 2;
     public static int gameSizeY = 2;
-    [SerializeField]private GameObject prefab;
-    [SerializeField]private GameObject cardList;
-    [SerializeField]private Sprite cardBack;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private GameObject cardList;
+    [SerializeField] private Sprite cardBack;
     // all possible sprite
-    [SerializeField]private Sprite[] sprites;
+    [SerializeField] private Sprite[] sprites;
     // list of card
     private CardMatch[] cards;
 
     //we place card on this panel
-    [SerializeField]private GameObject panel;
-    [SerializeField]private GameObject info;
-    [SerializeField]private CardMatch spritePreload;
-    [SerializeField]private Text sizeLabel;
+    [SerializeField] private GameObject panel;
+   // [SerializeField] private GameObject info;
+    [SerializeField] private CardMatch spritePreload;
+    [SerializeField] private Text sizeLabel;
     // [SerializeField]private Slider sizeSlider;
     [SerializeField] private Slider sizeSliderX;
     [SerializeField] private Slider sizeSliderY;
@@ -53,16 +53,17 @@ public class CardManager : MonoBehaviour
         if (gameStart) return;
         gameStart = true;
         panel.SetActive(true);
-        info.SetActive(false);
+       // info.SetActive(false);
         SetGamePanel();
         cardSelected = spriteSelected = -1;
         cardLeft = cards.Length;
         SpriteCardAllocation();
         StartCoroutine(HideFace());
     }
-    private void SetGamePanel(){
+    private void SetGamePanel()
+    {
 
-        int isOdd = gameSizeX % 2 ;
+        int isOdd = gameSizeX % 2;
 
         cards = new CardMatch[gameSizeX * gameSizeX - isOdd];
         foreach (Transform child in cardList.transform)
@@ -73,13 +74,14 @@ public class CardManager : MonoBehaviour
         RectTransform panelsize = panel.transform.GetComponent(typeof(RectTransform)) as RectTransform;
         float row_size = panelsize.sizeDelta.x;
         float col_size = panelsize.sizeDelta.y;
-        float scale = 1.0f/ gameSizeX;
-        float xInc = row_size/ gameSizeX;
-        float yInc = col_size/ gameSizeX;
+        float scale = 1.0f / gameSizeX;
+        float xInc = row_size / gameSizeX;
+        float yInc = col_size / gameSizeX;
         float curX = -xInc * (float)(gameSizeX / 2);
         float curY = -yInc * (float)(gameSizeX / 2);
 
-        if(isOdd == 0) {
+        if (isOdd == 0)
+        {
             curX += xInc / 2;
             curY += yInc / 2;
         }
@@ -131,7 +133,7 @@ public class CardManager : MonoBehaviour
     {
         int i, j;
         int[] selectedID = new int[cards.Length / 2];
-        for (i = 0; i < cards.Length/2; i++)
+        for (i = 0; i < cards.Length / 2; i++)
         {
             int value = Random.Range(0, sprites.Length - 1);
             for (j = i; j > 0; j--)
@@ -159,7 +161,8 @@ public class CardManager : MonoBehaviour
             }
 
     }
-    public void SetGameSize() {
+    public void SetGameSize()
+    {
         gameSizeX = (int)sizeSliderX.value;
         gameSizeY = (int)sizeSliderY.value;
         sizeLabel.text = gameSizeX + " X " + gameSizeY;
@@ -194,14 +197,17 @@ public class CardManager : MonoBehaviour
                 cards[cardSelected].Inactive();
                 cards[cardId].Inactive();
                 cardLeft -= 2;
+                AudioPlayer.Instance.PlayAudio(2);
+
                 CheckGameWin();
             }
             else
             {
                 cards[cardSelected].Flip();
                 cards[cardId].Flip();
+                AudioPlayer.Instance.PlayAudio(3);
                 GameController.Instance.wrongCount += 1; //LOSS LEVEL
-                
+
             }
             cardSelected = spriteSelected = -1;
         }
@@ -224,9 +230,9 @@ public class CardManager : MonoBehaviour
     {
         EndGame();
     }
-    public void DisplayInfo(bool i)
+   /* public void DisplayInfo(bool i)
     {
         info.SetActive(i);
-    }
+    }*/
 
 }

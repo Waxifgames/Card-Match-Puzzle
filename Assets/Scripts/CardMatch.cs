@@ -21,6 +21,8 @@ public class CardMatch : MonoBehaviour
         Quaternion endRotation = thisTransform.rotation * Quaternion.Euler(new Vector3(0, 90, 0));
         float rate = 1.0f / time;
         float t = 0.0f;
+        AudioPlayer.Instance.PlayAudio(1);
+
         while (t < 1.0f)
         {
             t += Time.deltaTime * rate;

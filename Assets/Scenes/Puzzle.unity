@@ -875,9 +875,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7035c7f76c65a7a489de890059cd3ab1, type: 3}
   - {fileID: 21300000, guid: b15dc25a909cbac459c3ebb560852339, type: 3}
   panel: {fileID: 4509667698847817431}
-  info: {fileID: 1911876264}
+  info: {fileID: 0}
   spritePreload: {fileID: 0}
-  sizeLabel: {fileID: 8030483104151751821}
+  sizeLabel: {fileID: 0}
   sizeSliderX: {fileID: 5098379798118867034}
   sizeSliderY: {fileID: 1648313065}
 --- !u!1 &541905855
